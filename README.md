@@ -44,6 +44,7 @@ brew install libusb autoconf automake libtool pkg-config autoconf-archive
 ./sane-install/bin/scanimage --format=pnm > test.pnm
 ```
 
+Full step-by-step test procedure: [`docs/TESTING.md`](docs/TESTING.md).
 To expose the scanner to native macOS apps (Image Capture, Preview) over AirScan,
 see [`docs/MACOS.md`](docs/MACOS.md).
 
