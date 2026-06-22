@@ -1,0 +1,76 @@
+diff --git a/backend/mustek_usb2.c b/backend/mustek_usb2.c
+index 785bdb3..ce174e7 100644
+--- a/backend/mustek_usb2.c
++++ b/backend/mustek_usb2.c
+@@ -84,13 +84,13 @@ static const SANE_Range u8_range = {
+ };
+ static SANE_Range x_range = {
+   SANE_FIX (0.0),		/* minimum */
+-  SANE_FIX (8.3 * MM_PER_INCH),	/* maximum */
++  SANE_FIX (11.69 * MM_PER_INCH),	/* maximum (A3 width 297mm) */
+   SANE_FIX (0.0)		/* quantization */
+ };
+ 
+ static SANE_Range y_range = {
+   SANE_FIX (0.0),		/* minimum */
+-  SANE_FIX (11.6 * MM_PER_INCH),	/* maximum */
++  SANE_FIX (16.54 * MM_PER_INCH),	/* maximum (A3 height 420mm) */
+   SANE_FIX (0.0)		/* quantization */
+ };
+ 
+@@ -123,15 +123,15 @@ static Scanner_Model mustek_A2nu2_model = {
+   "mustek-A2nu2",		/* Name */
+   "Mustek",			/* Device vendor string */
+ 
+-  "BearPaw 2448TA Pro",		/* Device model name */
++  "ScanExpress A3 USB 1200 Pro",	/* Device model name */
+   "",				/* Name of the firmware file */
+ 
+-  {1200, 600, 300, 150, 75, 0},	/* possible resolutions */
++  {1200, 600, 300, 150, 75, 0},	/* possible resolutions (confirmed by RE of A3 firmware) */
+ 
+   SANE_FIX (0.0),		/* Start of scan area in mm  (x) */
+   SANE_FIX (0.0),		/* Start of scan area in mm (y) */
+-  SANE_FIX (8.3 * MM_PER_INCH),	/* Size of scan area in mm (x) */
+-  SANE_FIX (11.6 * MM_PER_INCH),	/* Size of scan area in mm (y) */
++  SANE_FIX (11.69 * MM_PER_INCH),	/* Size of scan area in mm (x) - A3 297mm */
++  SANE_FIX (16.54 * MM_PER_INCH),	/* Size of scan area in mm (y) - A3 420mm */
+ 
+   SANE_FIX (0.0),		/* Start of scan area in TA mode in mm (x) */
+   SANE_FIX (0.0),		/* Start of scan area in TA mode in mm (y) */
+@@ -2064,7 +2064,7 @@ sane_get_devices (const SANE_Device *** device_list, SANE_Bool local_only)
+ 	return SANE_STATUS_NO_MEM;
+       sane_device->name = strdup (device_name);
+       sane_device->vendor = strdup ("Mustek");
+-      sane_device->model = strdup ("BearPaw 2448 TA Pro");
++      sane_device->model = strdup ("ScanExpress A3 USB 1200 Pro");
+       sane_device->type = strdup ("flatbed scanner");
+       devlist[dev_num++] = sane_device;
+     }
+diff --git a/backend/mustek_usb2_asic.c b/backend/mustek_usb2_asic.c
+index 8a2325e..3081c38 100644
+--- a/backend/mustek_usb2_asic.c
++++ b/backend/mustek_usb2_asic.c
+@@ -3518,7 +3518,7 @@ SetExtraSetting (PAsic chip, unsigned short wXResolution, unsigned short wCCD_Pi
+ 
+ 
+ /* HOLD: We don't want to have global vid/pids */
+-static unsigned short ProductID = 0x0409;
++static unsigned short ProductID = 0x040b;	/* Mustek ScanExpress A3 USB 1200 Pro (was 0x0409 BearPaw 2448TA) */
+ static unsigned short VendorID = 0x055f;
+ 
+ static SANE_String_Const device_name;
+diff --git a/doc/descriptions/mustek_usb2.desc b/doc/descriptions/mustek_usb2.desc
+index ec5b967..ae4a772 100644
+--- a/doc/descriptions/mustek_usb2.desc
++++ b/doc/descriptions/mustek_usb2.desc
+@@ -14,3 +14,9 @@
+ :interface "USB"
+ :usbid "0x055f" "0x0409"
+ :status :good
++
++:model "ScanExpress A3 USB 1200 Pro"
++:interface "USB"
++:usbid "0x055f" "0x040b"
++:status :basic
++:comment "SQ113 chip, port reverse-engineered from the proprietary driver; experimental"

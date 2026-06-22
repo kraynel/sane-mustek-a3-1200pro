@@ -1,0 +1,7 @@
+/build/
+/sane-install/
+*.pnm
+*.o
+*.lo
+*.la
+.DS_Store
