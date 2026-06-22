@@ -61,9 +61,9 @@ lowest-risk target.
 | Backend builds (arm64 macOS) | done |
 | Backend loads / initializes under SANE | done |
 | USB enumeration of `055f:040b` | done (logic), pending real device |
+| Dual-model support (keeps BearPaw 2448TA) | **done** - detects PID, selects model |
 | Real scan (image acquisition) | **pending hardware validation** |
 | Color / resolution calibration | pending |
-| Dual-model support (keep BearPaw 2448TA) | planned (see CONTRIBUTING-UPSTREAM) |
 
 ## Relationship to upstream SANE
 
